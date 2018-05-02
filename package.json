@@ -4,6 +4,7 @@
   "description": "A managment system for radio networking.",
   "main": "index.js",
   "dependencies": {
+    "express": "^4.16.3",
     "mongodb": "^3.0.7"
   },
   "devDependencies": {},
