@@ -1,13 +1,21 @@
 const express = require('express');
-const app = express();
-const port = 8080;
 const MongoClient = require('mongodb').MongoClient;
 const bodyParser = require('body-parser');
+const db_cfg = require('./config/db');
 
-var url = "mongodb://localhost:27017";
-var db_title = 'radio-net-hub';
+// express setup
+const app = express();
+const port = 8080;
 
-require('./app/routes')(app, {});
-app.listen(port, function() {
-  console.log('listening on ' + port)
+app.use(bodyParser.urlencoded({ extended: true }));
+
+MongoClient.connect(db_cfg.url, (err, database) => {
+  if (err) return console.log(err)
+                      
+  // Make sure you add the database name and not the collection name
+  var db = database.db(db_cfg.title)
+  require('./app/routes')(app, db);
+  app.listen(port, () => {
+    console.log('We are live on ' + port);
+  });               
 })
