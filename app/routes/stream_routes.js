@@ -21,7 +21,13 @@ module.exports = function(app, db) {
     });
     app.post('/streams', (req, res) => {
         var dt = new Date();
-        const stream = { added_timestamp: dt.toUTCString(), name: req.body.name, call_sign: req.body.call_sign, website: req.body.website, stream: req.body.stream };
+        const stream = { 
+          added_timestamp: dt.toUTCString(), 
+          name: req.body.name,
+          owner: req.body.owner, 
+          url: req.body.url, 
+          type: req.body.type
+        };
         db.collection('streams').insert(stream, (err, result) => {
             if (err) { 
                 res.send({ 'error': 'An error has occurred' }); 
@@ -44,7 +50,13 @@ module.exports = function(app, db) {
     app.put('/stream/:id', (req, res) => {
         var dt = new Date();
         const details = { '_id': new ObjectID(req.params.id) };
-        const stream = { $set: { update_timestamp: dt.toUTCString(), name: req.body.name, call_sign: req.body.call_sign, website: req.body.website, stream: req.body.stream } };
+        const stream = { $set: { 
+          update_timestamp: dt.toUTCString(), 
+          name: req.body.name,
+          owner: req.body.owner, 
+          url: req.body.url, 
+          type: req.body.type
+        } };
         db.collection('streams').update(details, stream, (err, result) => {
             if (err) {
                 res.send({'error':'An error has occurred'});
