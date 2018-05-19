@@ -20,7 +20,8 @@ module.exports = function(app, db) {
         });
     });
     app.post('/stations', (req, res) => {
-        const station = { name: req.body.name, call_sign: req.body.call_sign };
+        var dt = new Date();
+        const station = { added_timestamp: dt.toUTCString(), name: req.body.name, call_sign: req.body.call_sign, website: req.body.website };
         db.collection('stations').insert(station, (err, result) => {
             if (err) { 
                 res.send({ 'error': 'An error has occurred' }); 
@@ -41,8 +42,9 @@ module.exports = function(app, db) {
         });
      });
     app.put('/station/:id', (req, res) => {
+        var dt = new Date();
         const details = { '_id': new ObjectID(req.params.id) };
-        const station = { name: req.body.name, call_sign: req.body.call_sign, website: req.body.website };
+        const station = { update_timestamp: dt.toUTCString(), name: req.body.name, call_sign: req.body.call_sign, website: req.body.website };
         db.collection('stations').update(details, station, (err, result) => {
             if (err) {
                 res.send({'error':'An error has occurred'});
