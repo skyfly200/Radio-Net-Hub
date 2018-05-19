@@ -44,7 +44,7 @@ module.exports = function(app, db) {
     app.put('/station/:id', (req, res) => {
         var dt = new Date();
         const details = { '_id': new ObjectID(req.params.id) };
-        const station = { update_timestamp: dt.toUTCString(), name: req.body.name, call_sign: req.body.call_sign, website: req.body.website };
+        const station = { $set: { update_timestamp: dt.toUTCString(), name: req.body.name, call_sign: req.body.call_sign, website: req.body.website } };
         db.collection('stations').update(details, station, (err, result) => {
             if (err) {
                 res.send({'error':'An error has occurred'});

@@ -44,7 +44,7 @@ module.exports = function(app, db) {
     app.put('/stream/:id', (req, res) => {
         var dt = new Date();
         const details = { '_id': new ObjectID(req.params.id) };
-        const stream = { update_timestamp: dt.toUTCString(), name: req.body.name, call_sign: req.body.call_sign, website: req.body.website, stream: req.body.stream };
+        const stream = { $set: { update_timestamp: dt.toUTCString(), name: req.body.name, call_sign: req.body.call_sign, website: req.body.website, stream: req.body.stream } };
         db.collection('streams').update(details, stream, (err, result) => {
             if (err) {
                 res.send({'error':'An error has occurred'});

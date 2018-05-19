@@ -37,7 +37,7 @@ module.exports = function(app, db) {
     app.put('/user/:id', (req, res) => {
         var dt = new Date();
         const details = { '_id': new ObjectID(req.params.id) };
-        const user = { update_timestamp: dt.toUTCString(), username: req.body.username, role: "admin" };
+        const user = { $set: { update_timestamp: dt.toUTCString(), username: req.body.username, role: "admin" } };
         db.collection('users').update(details, user, (err, result) => {
             if (err) {
                 res.send({'error':'An error has occurred'});
