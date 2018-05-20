@@ -24,9 +24,11 @@ module.exports = function(app, db) {
         const stream = { 
           added_timestamp: dt.toUTCString(), 
           name: req.body.name,
-          owner: req.body.owner, 
-          url: req.body.url, 
-          type: req.body.type
+          server: req.body.server,
+          mount: req.body.mount,
+          type: req.body.type,
+          station: req.body.station,
+          owner: req.body.owner
         };
         db.collection('streams').insert(stream, (err, result) => {
             if (err) { 
@@ -53,9 +55,11 @@ module.exports = function(app, db) {
         const stream = { $set: { 
           update_timestamp: dt.toUTCString(), 
           name: req.body.name,
-          owner: req.body.owner, 
-          url: req.body.url, 
-          type: req.body.type
+          server: req.body.server,
+          mount: req.body.mount,
+          type: req.body.type,
+          station: req.body.station,
+          owner: req.body.owner
         } };
         db.collection('streams').update(details, stream, (err, result) => {
             if (err) {
